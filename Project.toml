@@ -1,0 +1,13 @@
+name = "StochasticCharacterMap"
+uuid = "ae31c2cd-9e44-4783-99a9-c92c40e34db9"
+authors = ["Bjorn Tore Kopperud <kopperud@protonmail.com> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.11"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
