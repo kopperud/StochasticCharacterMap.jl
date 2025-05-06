@@ -3,7 +3,7 @@ export sample_branch!
 function waiting_time(model::Model, state::String)
     λ = model.λ
     d = Distributions.Exponential(1 / λ)
-    r = rand(d, 1)[1]
+    r = rand(d)
     return(r)
 end
 
@@ -54,7 +54,7 @@ function sample_branch_history(
     states = String[]
     state_times = Float64[]
 
-    t = [0.0]
+    t = Float64[0.0]
     t_sum = 0.0
     state = oldest_state ## from old to young
     
@@ -69,9 +69,9 @@ function sample_branch_history(
         if tw > bl
             throw("error")
         end
-        append!(states, [state])
-        append!(state_times, tw)
-        append!(t, tw)
+        push!(states, state)
+        push!(state_times, tw)
+        push!(t, tw)
         state = sample_new_state(model, state)
         t_sum += tw
 
@@ -84,12 +84,14 @@ function sample_branch_history(
         t_sum += tw
         if t_sum > bl
             t_sum = bl
-            tw = min(bl, t_sum) - sum(t[1:i])
+            tw = min(bl, t_sum) - sum(t)
+
+            #println("t_sum = $t_sum, \t sum(t) = $(sum(t))")
         end
 
-        append!(states, [state])
-        append!(state_times, tw)
-        append!(t, tw)
+        push!(states, state)
+        push!(state_times, tw)
+        push!(t, tw)
 
         state = sample_new_state(model, state)
         i += 1
@@ -98,6 +100,9 @@ function sample_branch_history(
             throw("error, too many substitutions (rate = $(model.λ)")
         end
     end
+
+    #println("did $i iterations")
+
     reverse!(states)
     reverse!(state_times)
 

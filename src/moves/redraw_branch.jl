@@ -32,6 +32,8 @@ function redraw_branch!(
 
     branch.states = states
     branch.times = times
+
+    nothing
 end
 
 function redraw_branch!(
@@ -43,4 +45,6 @@ function redraw_branch!(
     states, times = redraw_branch(branch, model, oldest_state, youngest_state)
     branch.states = states
     branch.times = times
+
+    nothing
 end
