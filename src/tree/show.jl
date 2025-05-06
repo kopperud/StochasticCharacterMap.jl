@@ -13,3 +13,11 @@ end
 function Base.Multimedia.display(branch::Branch)
     println("A branch with a parent node and a descendant node. The states along this branch are $(branch.states), and the state times are $(branch.times), in the order of most recent to most ancient")
 end
+
+function Base.Multimedia.display(v::Vector{Union{Root, Node}})
+    println("A vector of $(length(v)) internal nodes.")
+end
+
+function Base.Multimedia.display(v::Vector{Branch})
+    println("A vector of $(length(v)) branches.")
+end

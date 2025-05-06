@@ -107,3 +107,44 @@ end
 function state_space!(node::Tip, s::Set{String})
     ## do nothing    
 end
+
+export get_nodes
+
+function get_nodes(node::Root)
+    nodes = Union{Root,Node}[]
+
+    get_nodes!(node, nodes)
+
+    return(nodes)
+end
+
+function get_nodes!(node::T, nodes) where {T <: InternalNode}
+    push!(nodes, node)
+
+    get_nodes!(node.left.outbounds, nodes) 
+    get_nodes!(node.right.outbounds, nodes) 
+end
+
+function get_nodes!(node::Tip, nodes)
+end
+
+export get_branches
+
+function get_branches(node::Root)
+    branches = Branch[]
+
+    get_branches!(node, branches)
+
+    return(branches)
+end
+
+function get_branches!(node::T, branches) where {T <: InternalNode}
+    push!(branches, node.left)
+    push!(branches, node.right)
+
+    get_branches!(node.left.outbounds, branches)
+    get_branches!(node.right.outbounds, branches)
+end
+
+function get_branches!(node::Tip, branches)
+end
